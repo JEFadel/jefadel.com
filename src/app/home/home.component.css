@@ -1,12 +1,33 @@
 @keyframes pulse {
     0% {
-        opacity: 0.1;
+        opacity: 0.01;
+        filter: invert(1) drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
     }
     50% {
-        opacity: 0.2;
+        opacity: 0.5;
+        filter: invert(1) drop-shadow(0 0 15px rgba(255, 255, 255, 0.7));
     }
     100% {
-        opacity: 0.1;
+        opacity: 0.01;
+        filter: invert(1) drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+    }
+}
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.3),
+                    0 0 20px rgba(255, 255, 255, 0.2),
+                    0 0 30px rgba(255, 255, 255, 0.1);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.5),
+                    0 0 40px rgba(255, 255, 255, 0.3),
+                    0 0 60px rgba(255, 255, 255, 0.2);
+    }
+    100% {
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.3),
+                    0 0 20px rgba(255, 255, 255, 0.2),
+                    0 0 30px rgba(255, 255, 255, 0.1);
     }
 }
 
@@ -26,13 +47,46 @@
     overflow: hidden;
 }
 
+@keyframes sequenceControl {
+    0%, 32% { visibility: visible; }
+    33%, 100% { visibility: hidden; }
+}
+
 .logo {
     position: absolute;
-    filter: invert(1);
-    max-width: 80vw;
-    max-height: 80vh;
+    max-width: 60vw;
+    max-height: 60vh;
     z-index: 1;
-    animation: pulse 3s ease-in-out infinite;
+    filter: invert(1);
+    animation: 
+        sequenceControl 9s infinite,
+        pulse 3s ease-in-out infinite;
+}
+
+.logo::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 50%;
+    animation: glow 3s ease-in-out infinite;
+    z-index: 0;
+}
+
+.soma {
+    filter: invert(0) !important;
+    animation: 
+        sequenceControl 9s infinite -3s,
+        pulse 3s ease-in-out infinite;
+}
+
+.dano {
+    filter: invert(0) !important;
+    animation: 
+        sequenceControl 9s infinite -6s,
+        pulse 3s ease-in-out infinite;
 }
 
 h1 {
@@ -43,6 +97,50 @@ h1 {
     font-family: consolas, monospace;
     position: relative;
     z-index: 2;
+    white-space: pre;
+}
+
+.typewriter-line {
+    position: relative;
+    white-space: nowrap;
+}
+
+.typewriter-wrapper {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 1;
+    width: 0;
+    border-right: 2px solid white;
+    animation: 
+        typing 3.5s steps(35) forwards,
+        blink-caret 0.75s step-end infinite;
+    padding-right: 4px;
+}
+
+.typewriter-wrapper.typed {
+    width: 100%;
+    border-right: none;
+}
+
+.typewriter-wrapper.fade {
+    animation: fadeOut 0.5s ease-out forwards;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: white }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
 }
 
 h1 a {
@@ -54,4 +152,16 @@ h1 a {
 
 h1 a:hover {
     text-decoration: underline;
+}
+
+@media screen and (max-width: 768px) {
+    h1 {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    h1 {
+        font-size: 1rem;
+    }
 }
